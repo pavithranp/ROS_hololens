@@ -8,8 +8,8 @@ TCP_PORT = 9090
 BUFFER_SIZE = 1024
 MESSAGE = "Hello, World!"
 def callback(data):
-    rospy.loginfo(rospy.get_caller_id() + 'I heard %s', data.data)
-    print(data.data)
+    rospy.loginfo(rospy.get_caller_id() + 'I heard %s', dir(data))
+    print(data.ranges)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((TCP_IP, TCP_PORT))
     s.send(MESSAGE)
@@ -19,7 +19,7 @@ def callback(data):
 def parse_data(data):
     #parse the messages
     return data.data
-    
+
 
 def listener():
 
