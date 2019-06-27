@@ -27,7 +27,11 @@ if args.s:
     serviceCall = rospy.ServiceProxy('/sick_safetyscanners/field_data', FieldData)
     field_list = serviceCall()
     field = field_list.fields[args.n]
-
+    l=[]
+    x=np.array_split(field.ranges,27)
+    for j in x:
+        l.append(max(j))
+    values=",".join(repr(e) for e in np.around(l,5))
 else:
     print('Waiting for topic')
     field = rospy.wait_for_message('/laserTopic',FieldMsg, timeout=30)
@@ -58,6 +62,6 @@ def callback(ScanObj):
 import time
 while True:
 
-    callback(field.ranges)
+    callback(values)
     print('alive')
     time.sleep(5)
